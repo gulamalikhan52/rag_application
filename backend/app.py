@@ -22,7 +22,7 @@ with st.sidebar:
             with st.spinner("Processing..."):
                 try:
                     res = requests.post(
-                        "http://localhost:8000/upload",
+                        "http://localhost:8501/upload",
                         files={"file": file}
                     )
                     if res.status_code == 200:
@@ -35,15 +35,14 @@ with st.sidebar:
                     st.error(f"Error: {e}")
 
     if st.session_state.pdf_ready:
-        st.info("✅ PDF is active")
+        st.info("PDF is active")
 
     if st.button("Clear Chat"):
         st.session_state.messages = []
         st.rerun()
 
-# ── Chat ──
 if not st.session_state.pdf_ready:
-    st.info("👈 Upload and process a PDF from the sidebar to begin.")
+    st.info("Upload and process a PDF from the sidebar to begin.")
 else:
     for msg in st.session_state.messages:
         with st.chat_message(msg["role"]):
@@ -60,7 +59,7 @@ else:
             with st.spinner("Thinking..."):
                 try:
                     res = requests.get(
-                        "http://localhost:8000/ask",
+                        "http://localhost:8501/ask",
                         params={"q": user_input}
                     )
                     if res.status_code == 200:

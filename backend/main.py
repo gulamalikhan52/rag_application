@@ -2,9 +2,7 @@ from fastapi import FastAPI, UploadFile
 from rag_pipeline import process_pdf, query_pdf
 import tempfile
 import os
-from dotenv import load_dotenv
 app = FastAPI()
-load_dotenv()
 vectorstore = None
 
 @app.post("/upload")
@@ -33,5 +31,5 @@ def ask_question(q: str):
 
 if __name__ == "__main__":
     import uvicorn
-    port = int(os.environ.get("PORT", 8000))
+    port = int(os.environ.get("PORT", 8501))
     uvicorn.run("main:app", host="0.0.0.0", port=port)

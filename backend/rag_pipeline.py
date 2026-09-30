@@ -3,7 +3,12 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 from embeddings import get_embeddings
 from groq import Groq
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
+
+api_key = os.getenv("GROQ_API_KEY")
 
 def process_pdf(file_path):
     loader = PyPDFLoader(file_path)
@@ -18,6 +23,7 @@ def process_pdf(file_path):
     embeddings = get_embeddings()
     vectorstore = FAISS.from_documents(docs, embeddings)
     return vectorstore
+
 
 
 def query_pdf(vectorstore, query):
@@ -36,7 +42,7 @@ Question:
 
 Answer:"""
 
-    client = Groq(api_key="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")
+    client = Groq(api_key=api_key)
 
     response = client.chat.completions.create(
         model="llama-3.3-70b-versatile",
